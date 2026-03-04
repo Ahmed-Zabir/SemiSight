@@ -62,4 +62,4 @@ SemiSight/
 
 ## Author
 
-Ahmed Zabir Hussain — Masters in Data Science
+Ahmed Zabir Hussain — Physics | Data Science
