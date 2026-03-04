@@ -1,0 +1,2 @@
+total_fail_chips,outliers_removed,clean_fail_chips,best_k,best_silhouette,pca_pc1_variance,pca_pc2_variance,pca_total_variance,conclusion
+293,15,278,3,0.07,9.4,6.9,16.3,No discrete failure modes found. Failures result from continuous multi-dimensional process drift.

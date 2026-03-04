@@ -1,0 +1,5 @@
+Model,Pass F1,Fail F1,AUC-ROC,Accuracy
+Random Forest,0.32,0.96,0.768,0.92
+XGBoost,0.14,0.96,0.767,0.92
+LightGBM,0.2,0.96,0.763,0.92
+Logistic Regression,0.25,0.86,0.685,0.76
