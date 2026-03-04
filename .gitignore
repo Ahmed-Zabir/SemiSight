@@ -4,3 +4,8 @@ __pycache__/
 .ipynb_checkpoints/
 data/raw/
 /Users/zabir/Downloads/LSWMD.pkl
+data/processed/wafer_maps.npy
+data/processed/wafer_labels.npy
+data/processed/X_train_smote.npy
+data/processed/X_train_selected.npy
+models/cnn_wafer_map.keras
