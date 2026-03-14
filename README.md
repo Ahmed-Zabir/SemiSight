@@ -1,65 +1,82 @@
-## SemiSight — Semiconductor Fault Prediction Platform
-An end-to-end machine learning platform for semiconductor yield analytics, built on the UCI SECOM and WM-811K datasets.
+# SemiSight 🔬
+### Semiconductor Yield Analytics Platform
+
+Semiconductor fabs lose millions of dollars per percentage point of yield 
+loss. SemiSight is an end-to-end analytics platform that predicts chip 
+failure before electrical test, explains the root causes driving yield loss, 
+and automatically classifies wafer defect patterns — giving process engineers 
+actionable intelligence, faster.
 
 ---
 
-## Project Overview
+## The Problem
+- Yield loss in semiconductor manufacturing is costly and often poorly understood
+- Process engineers are drowning in high-dimensional sensor data with no 
+  clear signal
+- Wafer defect patterns are classified manually, slowly, and inconsistently
 
-SemiSight predicts semiconductor chip pass/fail outcomes, explains model decisions using SHAP, investigates failure clustering, and classifies wafer map failure patterns using a CNN — all deployed in an interactive Streamlit dashboard.
-
----
-
-## Phases
-
-| 1 | EDA & Data Cleaning
-| 2 | Preprocessing & Feature Engineering
-| 3 | Model Building & Evaluation
-| 4 | SHAP Explainability
-| 5 | Failure Mode Clustering 
-| 6 | CNN Wafer Map Analysis 
-| 7 | Streamlit Dashboard 
-
----
-
-## Key Results
-
-- **Random Forest** champion model — AUC-ROC 0.768, Pass F1 0.32 on severely imbalanced data (93% fail rate)
-- **SHAP** analysis identified Feature 10 as the dominant predictor — chips with higher Feature 10 values are significantly more likely to pass
-- **Clustering** found no discrete failure modes — SECOM failures result from continuous multi-dimensional process drift
-- **CNN** achieved 83.1% accuracy classifying 8 wafer map failure types — Edge-Ring F1 0.95, Center F1 0.94
+## What SemiSight Does
+| Capability | What It Means For You |
+|---|---|
+| **Yield Prediction** | Predicts chip pass/fail from process sensor data before electrical test |
+| **Root Cause Analysis** | SHAP explainability identifies which process parameters are driving failure |
+| **Process Drift Detection** | Flags when manufacturing process is drifting before yield degrades |
+| **Wafer Defect Classification** | CNN automatically classifies 8 wafer map failure types from binary images |
+| **Interactive Dashboard** | All insights accessible in a 3-page Streamlit dashboard — no code required |
 
 ---
 
-## Datasets
+## Results
+- **AUC-ROC 0.768** on 93% imbalanced real-world fab data (SECOM dataset)
+- **83.1% wafer defect classification accuracy** across 8 failure types
+- **Edge-Ring F1: 0.95 | Center F1: 0.94** — highest-frequency defect types 
+  classified with production-grade accuracy
+- **Continuous process drift confirmed** — no discrete failure clusters, 
+  meaning yield loss is driven by gradual parameter shift, not single-point 
+  failures
+- Feature 10 identified as dominant yield driver via SHAP — actionable 
+  signal for process engineers
 
-- **SECOM** — UCI Machine Learning Repository — 1,567 chips, 590 features, 93% fail rate
-- **WM-811K** — Kaggle — 811,457 wafer maps, 8 labeled failure types
+---
+
+## Dashboard
+3-page interactive Streamlit app covering yield prediction, SHAP 
+explainability, and wafer defect classification.
+
+**Run locally:**
+```bash
+cd ~/Documents/SemiSight
+source semisight_env/bin/activate
+streamlit run dashboard/app.py
+```
 
 ---
 
 ## Tech Stack
-
-```
-Python 3.9 | scikit-learn | XGBoost | LightGBM | SHAP
+Python 3.9 | scikit-learn | XGBoost | LightGBM | SHAP | 
 TensorFlow/Keras | imbalanced-learn | Streamlit | Pandas | NumPy
-```
 
 ---
 
 ## Project Structure
-
 ```
 SemiSight/
-├── data/
-│   └── processed/     ← cleaned and processed data files
-├── notebooks/         ← Jupyter notebooks for each phase
-├── models/            ← saved model files
-├── dashboard/         ← Streamlit app
-└── reports/           ← saved plots and figures
+├── data/processed/     ← cleaned and processed data files
+├── notebooks/          ← phase-by-phase analysis notebooks
+├── models/             ← saved model files
+├── dashboard/          ← Streamlit app
+└── reports/            ← plots and figures
 ```
 
 ---
 
-## Author
+## Datasets
+- **SECOM** (UCI ML Repository) — 1,567 chips, 590 process features
+- **WM-811K** (Kaggle) — 811,457 labeled wafer maps, 8 failure types
 
-Ahmed Zabir Hussain — Physics | Data Science
+---
+
+## Author
+**Ahmed Zabir Hussain** — Physics & Data Science  
+Open to consulting engagements in semiconductor yield analytics and 
+wafer defect classification.  
