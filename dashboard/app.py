@@ -30,7 +30,7 @@ wafer_labels = st.session_state.wafer_labels
 CLASSES = ['Center', 'Donut', 'Edge-Loc', 'Edge-Ring', 'Loc', 'Near-full', 'Random', 'Scratch']
 
 # Sidebar
-st.sidebar.title("🔬 SemiSight 🔬")
+st.sidebar.title("🔳 SemiSight")
 st.sidebar.markdown("Semiconductor Fault Prediction Platform")
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Dataset:** UCI SECOM + WM-811K")
