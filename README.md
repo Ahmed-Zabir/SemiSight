@@ -1,4 +1,4 @@
-# SemiSight 🔬
+# SemiSight 🔳 
 ### Semiconductor Yield Analytics Platform
 
 Semiconductor fabs lose millions of dollars per percentage point of yield 
