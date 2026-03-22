@@ -27,15 +27,15 @@ actionable intelligence, faster.
 ---
 
 ## Results
-**- **AUC-ROC 0.768** on 93% imbalanced real-world fab data (SECOM dataset)
-- **83.1% wafer defect classification accuracy** across 8 failure types
-- **Edge-Ring F1: 0.95 | Center F1: 0.94** — highest-frequency defect types 
+- AUC-ROC 0.768 on 93% imbalanced real-world fab data (SECOM dataset)
+- 83.1% wafer defect classification accuracy across 8 failure types
+- Edge-Ring F1: 0.95 | Center F1: 0.94 — highest-frequency defect types 
   classified with production-grade accuracy
-- **Continuous process drift confirmed** — no discrete failure clusters, 
+- Continuous process drift confirmed — no discrete failure clusters, 
   meaning yield loss is driven by gradual parameter shift, not single-point 
   failures
 - Feature 10 identified as dominant yield driver via SHAP — actionable 
-  signal for process engineers**
+  signal for process engineers
 ---
 
 ## Dashboard
