@@ -4,14 +4,14 @@
 Semiconductor fabs lose millions of dollars per percentage point of yield 
 loss. SemiSight is an end-to-end analytics platform that predicts chip 
 failure before electrical test, explains the root causes driving yield loss, 
-and automatically classifies wafer defect patterns — giving process engineers 
+and automatically classifies wafer defect patterns, giving process engineers 
 actionable intelligence, faster.
 
 ---
 
 ## The Problem
 - Yield loss in semiconductor manufacturing is costly and often poorly understood
-- Process engineers are drowning in high-dimensional sensor data with no 
+- Process engineers are drowning in high dimensional sensor data with no 
   clear signal
 - Wafer defect patterns are classified manually, slowly, and inconsistently
 
