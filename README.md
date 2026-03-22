@@ -1,17 +1,17 @@
-# SemiSight 🔬
+# SemiSight 🔳 
 ### Semiconductor Yield Analytics Platform
 
 Semiconductor fabs lose millions of dollars per percentage point of yield 
 loss. SemiSight is an end-to-end analytics platform that predicts chip 
 failure before electrical test, explains the root causes driving yield loss, 
-and automatically classifies wafer defect patterns — giving process engineers 
+and automatically classifies wafer defect patterns, giving process engineers 
 actionable intelligence, faster.
 
 ---
 
 ## The Problem
 - Yield loss in semiconductor manufacturing is costly and often poorly understood
-- Process engineers are drowning in high-dimensional sensor data with no 
+- Process engineers are drowning in high dimensional sensor data with no 
   clear signal
 - Wafer defect patterns are classified manually, slowly, and inconsistently
 
@@ -22,21 +22,20 @@ actionable intelligence, faster.
 | **Root Cause Analysis** | SHAP explainability identifies which process parameters are driving failure |
 | **Process Drift Detection** | Flags when manufacturing process is drifting before yield degrades |
 | **Wafer Defect Classification** | CNN automatically classifies 8 wafer map failure types from binary images |
-| **Interactive Dashboard** | All insights accessible in a 3-page Streamlit dashboard — no code required |
+| **Interactive Dashboard** | All insights accessible in a 3-page Streamlit dashboard |
 
 ---
 
 ## Results
-- **AUC-ROC 0.768** on 93% imbalanced real-world fab data (SECOM dataset)
-- **83.1% wafer defect classification accuracy** across 8 failure types
-- **Edge-Ring F1: 0.95 | Center F1: 0.94** — highest-frequency defect types 
+- AUC-ROC 0.768 on 93% imbalanced real-world fab data (SECOM dataset)
+- 83.1% wafer defect classification accuracy across 8 failure types
+- Edge-Ring F1: 0.95 | Center F1: 0.94 — highest-frequency defect types 
   classified with production-grade accuracy
-- **Continuous process drift confirmed** — no discrete failure clusters, 
+- Continuous process drift confirmed — no discrete failure clusters, 
   meaning yield loss is driven by gradual parameter shift, not single-point 
   failures
 - Feature 10 identified as dominant yield driver via SHAP — actionable 
   signal for process engineers
-
 ---
 
 ## Dashboard
