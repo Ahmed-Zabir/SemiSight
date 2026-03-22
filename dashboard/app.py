@@ -11,6 +11,7 @@ st.set_page_config(page_title="SemiSight", page_icon="🔬", layout="wide")
 
 BASE_PATH = os.path.expanduser('~/Documents/SemiSight')
 
+# Load everything once
 if 'loaded' not in st.session_state:
     st.session_state.rf_model = joblib.load(f'{BASE_PATH}/models/champion_model.pkl')
     st.session_state.cnn_model = tf.keras.models.load_model(f'{BASE_PATH}/models/cnn_wafer_map.keras')
@@ -46,65 +47,73 @@ if page == "SECOM Predictor":
     st.title("SECOM Chip Pass/Fail Predictor")
     st.markdown("""
     This page shows the results of a Random Forest classifier trained on the UCI SECOM semiconductor 
-    manufacturing dataset. The goal is to predict whether a chip will pass or fail quality testing 
-    based on 100 sensor readings collected during the manufacturing process.
+    manufacturing dataset. The goal is to predict whether a manufacturing run will pass or fail 
+    based on 590 sensor readings. Detecting the rare failure cases early is critical for improving 
+    yield and reducing manufacturing costs.
     """)
 
     st.markdown("**Dataset Info:**")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total Chips", "1,567")
+    col1.metric("Total Runs", "1,567")
     col2.metric("Features", "100")
-    col3.metric("Pass Rate", "6.6%")
+    col3.metric("Fail Rate", "6.6%")
     col4.metric("AUC-ROC", "0.768")
 
     st.markdown("**Key Findings:**")
     st.markdown("""
-    - Severe class imbalance — 93.4% of chips fail, making accuracy a misleading metric
-    - SMOTE oversampling was applied to the training set to balance classes
-    - Default Random Forest outperformed tuned models, XGBoost, and LightGBM on Pass F1 score
+    - Severe class imbalance — only 104 runs failed (6.6%), while 1,463 passed (93.4%)
+    - Failures are the rare positive class (label 1) — the class the model is optimized to detect
+    - SMOTE oversampling was applied to the training set to generate more failure examples
+    - Default Random Forest outperformed tuned models, XGBoost, and LightGBM on Fail F1 score
     - Feature 10 was the single most important predictor globally across all SHAP analyses
-    - Pass chips tend to have higher Feature 10 values — a potential real manufacturing threshold
     """)
 
     st.subheader("Model Comparison")
+    st.markdown("Comparison of all models evaluated. F1 score for the Fail class was the primary metric due to class imbalance — accurately detecting the rare failures matters most.")
     st.image(f'{BASE_PATH}/reports/model_comparison.png')
 
     st.subheader("Feature Importance")
+    st.markdown("Top features ranked by importance in the champion Random Forest model. Feature 10 dominates as the strongest predictor of manufacturing run outcome.")
     st.image(f'{BASE_PATH}/reports/feature_importance.png')
 
     st.subheader("SHAP Summary Plot")
+    st.markdown("SHAP values show how each feature pushes predictions toward Fail or Pass. Features higher on the chart have greater overall impact on the model's decisions.")
     st.image(f'{BASE_PATH}/reports/shap_summary_plot.png')
 
-    st.subheader("SHAP Force Plot — Chip 304 (True Positive)")
+    st.subheader("SHAP Force Plot — Chip 304")
+    st.markdown("Individual chip explanation showing which features pushed this prediction toward Fail and which pushed toward Pass.")
     st.image(f'{BASE_PATH}/reports/shap_force_chip304.png')
 
-# PAGE 2
+# ── PAGE 2 ──
 elif page == "Failure Mode Explorer":
     st.title("Failure Mode Explorer")
     st.markdown("""
-    This page explores whether the 293 failed chips in the SECOM test set fall into distinct 
+    This page explores whether the failed runs in the SECOM test set fall into distinct 
     failure mode groups. KMeans clustering was applied across k=2 to k=10, with outlier removal 
     using Local Outlier Factor before clustering.
     """)
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Failed Chips", "293")
+    col1.metric("Failed Runs", "293")
     col2.metric("Outliers Removed", "15")
-    col3.metric("Clean Chips", "278")
+    col3.metric("Clean Runs", "278")
     col4.metric("Best Silhouette", "0.07")
 
     st.markdown("**Key Findings:**")
     st.markdown("""
-    - 15 outlier chips removed — likely sensor errors or recording anomalies
+    - 15 outlier runs removed — likely sensor errors or recording anomalies
     - Silhouette scores below 0.07 across all values of k — no meaningful cluster structure found
     - PCA projection explains only 16.3% of variance in 2D — failures spread across 100 dimensions
-    - Conclusion: failures result from continuous process drift, not discrete fault types
+    - Conclusion: failures result from continuous multi-dimensional process drift, not discrete fault types
+    - This tells engineers there is no single dominant failure mode to target
     """)
 
     st.subheader("Optimal K Search")
+    st.markdown("Inertia and silhouette scores across k=2 to k=10. Silhouette scores remain flat and near zero — confirming no natural cluster structure exists.")
     st.image(f'{BASE_PATH}/reports/clustering_optimal_k.png')
 
-    st.subheader("PCA Visualization — Failed Chips")
+    st.subheader("PCA Visualization — Failed Runs")
+    st.markdown("278 failed runs projected to 2D using PCA. The failures form one continuous cloud with no separable boundaries.")
     st.image(f'{BASE_PATH}/reports/failure_mode_pca.png')
 
     st.subheader("Silhouette Scores by K")
@@ -114,13 +123,13 @@ elif page == "Failure Mode Explorer":
     }
     st.dataframe(pd.DataFrame(silhouette_data), use_container_width=True)
 
-# PAGE 3
+# ── PAGE 3 ──
 elif page == "Wafer Map Classifier":
     st.title("Wafer Map CNN Classifier")
     st.markdown("""
     This page uses a CNN trained on 25,519 labeled wafers from the WM-811K dataset to classify 
-    8 distinct failure patterns in real time. Select a wafer index to see the wafer map and 
-    the CNN's prediction.
+    8 distinct failure patterns in real time. Each wafer map is a 2D grid where failed dies appear 
+    in red and passing dies in white. Select a wafer index to see the live CNN prediction.
     """)
 
     col1, col2, col3, col4 = st.columns(4)
@@ -131,10 +140,11 @@ elif page == "Wafer Map Classifier":
 
     st.markdown("**Key Findings:**")
     st.markdown("""
-    - Edge-Ring and Center patterns achieved F1 scores of 0.95 and 0.94
-    - Scratch scored only 0.32 F1 — only 238 training samples
-    - Near-full achieved perfect recall but low precision due to high class weight
+    - Edge-Ring and Center patterns achieved F1 scores of 0.95 and 0.94 — visually distinct and easy to learn
+    - Scratch scored only 0.32 F1 — only 238 training samples, not enough to learn the diagonal line pattern
+    - Near-full achieved perfect recall (1.00) but low precision (0.45) due to high class weight
     - Training completed in 11 epochs on Apple M4 GPU
+    - Model has 315,272 parameters — lightweight enough for local deployment
     """)
 
     st.subheader("Live Wafer Map Prediction")
@@ -168,6 +178,9 @@ elif page == "Wafer Map Classifier":
         plt.tight_layout()
         st.pyplot(fig)
         plt.close()
+
+    st.subheader("Failure Type Examples")
+    st.image(f'{BASE_PATH}/reports/wafer_map_examples.png')
 
     st.subheader("Training History")
     st.image(f'{BASE_PATH}/reports/cnn_training_history.png')
