@@ -22,7 +22,7 @@ actionable intelligence, faster.
 | **Root Cause Analysis** | SHAP explainability identifies which process parameters are driving failure |
 | **Process Drift Detection** | Flags when manufacturing process is drifting before yield degrades |
 | **Wafer Defect Classification** | CNN automatically classifies 8 wafer map failure types from binary images |
-| **Interactive Dashboard** | All insights accessible in a 3-page Streamlit dashboard — no code required |
+| **Interactive Dashboard** | All insights accessible in a 3-page Streamlit dashboard |
 
 ---
 
